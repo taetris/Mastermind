@@ -7,16 +7,20 @@ import Slot from './components/molecules/slot'
 export default function App() {
 
   const [correctValues, setCorrectValues] = React.useState(["orange", "pink", "blue", "black"]);
-  const [totalUserAttempts, setTotalUserAttempts] = React.useState([]);
+  
   const [clickCount, setClickCount] = React.useState(0);
   const [tempSelectedColors, setTempSelectedColors] = React.useState(["#ddd", "#ddd", "#ddd", "#ddd"]);
   const [userAttempt, setUserAttempt] = React.useState({
-    id: 1,
+    id: 0,
     value: ["#ddd", "#ddd", "#ddd", "#ddd"],
     redCount: 0,
     whiteCount: 0
   });
+
+  const [totalUserAttempts, setTotalUserAttempts] = React.useState([userAttempt]);
   
+  let attemptCount = 0
+
   function colorSelectHandler(event) {
     // Prevent selection beyond 4 colors
     if (clickCount > 3) return;
@@ -50,9 +54,13 @@ export default function App() {
       alert("Please select all colors");
       return;
     }
+
+    if(attemptCount === 10){
+      alert("Game Over")
+      return;
+    }
   
-    // Save the current attempt before resetting
-    setTotalUserAttempts((prevAttempts) => [...prevAttempts, userAttempt]);
+    attemptCount += 1
   
     // Create a copy of correctValues to avoid mutation
     const updatedCorrectValues = [...correctValues];
@@ -87,10 +95,15 @@ export default function App() {
     // Update userAttempt with red and white counts
     setUserAttempt((prevAttempt) => ({
       ...prevAttempt,
-      redCount,
-      whiteCount,
+      redCount: redCount,
+      whiteCount: whiteCount,
+      id: attemptCount
     }));
   
+
+    // Save the current attempt before resetting
+    setTotalUserAttempts((prevAttempts) => [...prevAttempts, userAttempt]);
+    console.log("from checkUserAttempt: ", totalUserAttempts)
     // Reset state for the next attempt
     setClickCount(0);
     setTempSelectedColors(["#ddd", "#ddd", "#ddd", "#ddd"]);
@@ -102,7 +115,7 @@ export default function App() {
     <div className="app"
     style={{maxHeight: "100vh"}}>
       <Slot colors={correctValues} colorCount={4} isClickable={false}/>
-      <Board userAttempt={userAttempt} setUserAttempt={setUserAttempt}/>
+      <Board totalUserAttempts={totalUserAttempts}  />
       <UserInput checkUserAttempt={checkUserAttempt} colorSelectHandler={colorSelectHandler} />
     </div>
     </> 

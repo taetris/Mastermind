@@ -8,10 +8,10 @@ export default function Attempt(props) {
     // setUserAttempt((prevAttempt) => {return{...prevAttempt, value: ["red", "blue", "pink", "orange"]}})
     // let userAttempt = ["red", "blue", "pink", "orange"]
 
-    let tempUserAttempt
+    // let tempUserAttempt
 
-    let correctValues = ["blue", "green", "red", "yellow"]
-    let redCount, whiteCount
+    // let correctValues = ["blue", "green", "red", "yellow"]
+    // let redCount, whiteCount
 
     return ( 
         <div className="attempt"
@@ -23,7 +23,7 @@ export default function Attempt(props) {
             borderRadius: "10px"
         }}>          
             <p>#{props.userAttempt.id}</p>
-            <Slot colors={userAttempt.value} colorCount={userAttempt.value.length} isClickable={false}/>
+            <Slot colors={props.userAttempt.value} colorCount={props.userAttempt.value.length} isClickable={false}/>
       
             <Result colorCount={4}/>        
 
