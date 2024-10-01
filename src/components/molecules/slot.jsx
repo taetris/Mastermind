@@ -21,7 +21,8 @@ export default function Slot(props) {
             style={{
                     width: "70%",
                     display: "flex",
-                    justifyContent: "space-evenly"
+                    justifyContent: "space-evenly",
+                    
             }}>
             {slotColors}
         </div>

@@ -4,15 +4,6 @@ import Slot from "../molecules/slot"
 export default function Attempt(props) {
     let userAttempt = props.userAttempt
  
-    
-    // setUserAttempt((prevAttempt) => {return{...prevAttempt, value: ["red", "blue", "pink", "orange"]}})
-    // let userAttempt = ["red", "blue", "pink", "orange"]
-
-    // let tempUserAttempt
-
-    // let correctValues = ["blue", "green", "red", "yellow"]
-    // let redCount, whiteCount
-
     return ( 
         <div className="attempt"
         style={{display: "flex",
@@ -20,12 +11,13 @@ export default function Attempt(props) {
             padding: "12px",
             width: "500px",
             alignItems: "center",
-            borderRadius: "10px"
+            borderRadius: "10px",
+            background: "grey"
         }}>          
-            <p>#{props.userAttempt.id}</p>
-            <Slot colors={props.userAttempt.value} colorCount={props.userAttempt.value.length} isClickable={false}/>
+            <p>#{userAttempt.id}</p>
+            <Slot colors={userAttempt.value} colorCount={userAttempt.value.length} isClickable={false}/>
       
-            <Result colorCount={4}/>        
+            <Result colors={userAttempt.result} colorCount={userAttempt.result.length} />        
 
         </div>
     )

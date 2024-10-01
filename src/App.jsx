@@ -9,42 +9,43 @@ export default function App() {
   const [correctValues, setCorrectValues] = React.useState(["orange", "pink", "blue", "black"]);
   
   const [clickCount, setClickCount] = React.useState(0);
-  const [tempSelectedColors, setTempSelectedColors] = React.useState(["#ddd", "#ddd", "#ddd", "#ddd"]);
-  const [userAttempt, setUserAttempt] = React.useState({
-    id: 0,
-    value: ["#ddd", "#ddd", "#ddd", "#ddd"],
-    redCount: 0,
-    whiteCount: 0
-  });
+  const [attemptCount, setAttemptCount] = React.useState(0);
 
-  const [totalUserAttempts, setTotalUserAttempts] = React.useState([userAttempt]);
-  
-  let attemptCount = 0
+  const [tempSelectedColors, setTempSelectedColors] = React.useState(["#ddd", "#ddd", "#ddd", "#ddd"]);
+  const [tempResult, setTempResult] = React.useState(["#ddd", "#ddd", "#ddd", "#ddd"]);
+  const [userAttempt, setUserAttempt] = React.useState({});
+
+  const [totalUserAttempts, setTotalUserAttempts] = React.useState([]);
+
+  // Initialize the totalUserAttempts array once when the component mounts
+  React.useEffect(() => {
+    const initialAttempts = Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      value: ["#ddd", "#ddd", "#ddd", "#ddd"],
+      result: ["#ddd", "#ddd", "#ddd", "#ddd"]
+    }));
+    // setTotalUserAttempts(initialAttempts);
+  }, []); // This ensures the array is initialized only once
+
 
   function colorSelectHandler(event) {
+    // Increment clickCount
+    setClickCount((prevCount) => prevCount + 1);
+
+    event.currentTarget.style.backgroundColor = "black"
     // Prevent selection beyond 4 colors
-    if (clickCount > 3) return;
+    if (clickCount >= 4) return;
   
-    event.currentTarget.style.background = "rgba(1, 1, 1, 1)";
-    
     const selectedColor = event.target.style.backgroundColor;
   
     setTempSelectedColors((prevSelectedColors) => {
-      const updatedColors = [...prevSelectedColors];
-      updatedColors[clickCount] = selectedColor;
-  
-      // Update userAttempt with the new color array
-      setUserAttempt((prevAttempt) => ({ ...prevAttempt, value: updatedColors }));
-      
-      return updatedColors;
+      const newColors = [...prevSelectedColors];
+      newColors[clickCount] = selectedColor; // Update the current slot
+      return newColors;
     });
-    
-    // Increment clickCount
-    setClickCount((prevCount) => prevCount + 1);
   }
   
 
-  
   function checkUserAttempt() {
     let redCount = 0;
     let whiteCount = 0;
@@ -55,72 +56,75 @@ export default function App() {
       return;
     }
 
-    if(attemptCount === 10){
-      alert("Game Over")
+    setClickCount(0);
+
+    // Increment attemptCount
+    if (attemptCount === 10) {
+      alert("Game Over");
       return;
     }
-  
-    attemptCount += 1
-  
-    // Create a copy of correctValues to avoid mutation
-    const updatedCorrectValues = [...correctValues];
-  
-    // Loop through the user's current attempt
+    
+    setAttemptCount((prevCount) => prevCount + 1);
+
+    // Use tempSelectedColors for current attempt
+    const currentAttempt = tempSelectedColors;
+    const tempCorrectValues = [...correctValues]; // Copy to avoid mutation
+
+    // Check logic for red and white
     for (let i = 0; i < 4; i++) {
-      console.log(i, "My color: ", userAttempt.value[i]);
-  
       // If color matches in the correct position
-      if (userAttempt.value[i] === updatedCorrectValues[i]) {
+      if (currentAttempt[i] === tempCorrectValues[i]) {
         redCount += 1;
-        updatedCorrectValues[i] = null; // Remove matched color
+        tempCorrectValues[i] = null; // Remove matched color
       }
     }
   
     // Check for white matches (correct color, wrong position)
     for (let i = 0; i < 4; i++) {
-      if (userAttempt.value[i] !== updatedCorrectValues[i]) { // Avoid double counting reds
+      if (currentAttempt[i] !== tempCorrectValues[i]) { // Avoid double counting reds
         for (let j = 0; j < 4; j++) {
-          // Check for color matches
-          if (userAttempt.value[i] === updatedCorrectValues[j]) {
+          if (currentAttempt[i] === tempCorrectValues[j]) {
             whiteCount += 1;
-            updatedCorrectValues[j] = null; // Remove matched color
-            break; // Break to avoid counting the same color again
+            tempCorrectValues[j] = null; // Remove matched color
+            break;
           }
         }
       }
     }
-  
-    console.log("Red: ", redCount, "White: ", whiteCount);
-  
-    // Update userAttempt with red and white counts
-    setUserAttempt((prevAttempt) => ({
-      ...prevAttempt,
-      redCount: redCount,
-      whiteCount: whiteCount,
-      id: attemptCount
-    }));
-  
 
-    // Save the current attempt before resetting
-    setTotalUserAttempts((prevAttempts) => [...prevAttempts, userAttempt]);
-    console.log("from checkUserAttempt: ", totalUserAttempts)
-    // Reset state for the next attempt
-    setClickCount(0);
+    // Update tempResult with red and white counts
+    const resultArray = Array(4).fill("#ddd");
+    let i = 0;
+    for (; i < redCount; i++) {
+      resultArray[i] = "red";
+    }
+    for (; i < redCount + whiteCount; i++) {
+      resultArray[i] = "white";
+    }
+
+    setTempResult(resultArray);
+
+    // Save the current attempt
+    setTotalUserAttempts((prevAttempts) => {
+      const updatedAttempts = [...prevAttempts];
+      updatedAttempts[attemptCount] = {
+        id: attemptCount,
+        value: currentAttempt,
+        result: resultArray
+      };
+      return updatedAttempts;
+    });
+
+    // Reset for the next attempt
     setTempSelectedColors(["#ddd", "#ddd", "#ddd", "#ddd"]);
   }
   
   
   return (
-    <>
-    <div className="app"
-    style={{maxHeight: "100vh"}}>
-      <Slot colors={correctValues} colorCount={4} isClickable={false}/>
-      <Board totalUserAttempts={totalUserAttempts}  />
+    <div className="app" style={{ maxHeight: "100vh" }}>
+      <Slot colors={correctValues} colorCount={4} isClickable={false} />
+      <Board totalUserAttempts={totalUserAttempts} />
       <UserInput checkUserAttempt={checkUserAttempt} colorSelectHandler={colorSelectHandler} />
     </div>
-    </> 
-
   )
 }
-
-

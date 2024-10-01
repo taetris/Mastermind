@@ -15,6 +15,10 @@ export default function Board(props) {
         renderMadeAttempts.push(<Attempt userAttempt={attempt}/>)
     }
 
+    React.useEffect(() => {
+        console.log("totalUserAttempts", props.totalUserAttempts)
+        
+    }, [props.totalUserAttempts])
 
     // props.setUserAttempt(prevAttempt => ({...prevAttempt, id: i}))
 

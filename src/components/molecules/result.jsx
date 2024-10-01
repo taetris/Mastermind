@@ -3,12 +3,13 @@ import Color from "../atoms/color"
 
 export default function Result(props) {
     let possibleColors = []
+
     for(let i=0; i<props.colorCount; i++){
-        possibleColors.push(
-                <div style={{}}>
-                    <Color color="red" size="20px"/>
-                </div>)
+        possibleColors.push(<Color color={props.colors[i]} size="20px"/>)
+
     }
+
+    console.log(possibleColors)
     return (
         <div className="result"
             style={{width: "30%",
