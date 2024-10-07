@@ -7,7 +7,8 @@ export default function Slot(props) {
 
     for(let i=0; i<props.colorCount; i++){
         if(props.isClickable){
-            slotColorwithClick =  <button onClick={props.colorSelectHandler}><Color color={props.colors[i]} size="50px"/></button>
+
+            slotColorwithClick =  <button style={{border: "none", background: "none"}} onClick={props.colorSelectHandler}><Color color={props.colors[i]} size="50px" resetBorder={props.resetBorder}/></button>
         }
         else{
             slotColorwithClick = <Color color={props.colors[i]} size="50px"/>

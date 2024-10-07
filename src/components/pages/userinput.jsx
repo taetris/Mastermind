@@ -8,9 +8,9 @@ export default function UserInput(props) {
  
     // React.useEffect(() => {
     //     if(selectedColors.length === 4){
-                // if next click is enter, select all and push to userAttempt
+    //             if next click is enter, select all and push to userAttempt
     //     }
-    // }, [selectedColors])
+    // }, [])
 
 
 
@@ -21,7 +21,7 @@ export default function UserInput(props) {
                 padding: "20px"
             }}>
                 
-            <Slot colors={colorArray} colorCount={colorArray.length} isClickable={true} colorSelectHandler={props.colorSelectHandler}/>
+            <Slot colors={colorArray} colorCount={colorArray.length} isClickable={true} colorSelectHandler={props.colorSelectHandler} resetBorder={props.resetBorder}/>
             <button className="go-button"
                 style={{padding: "20px"}}
                 onClick={props.checkUserAttempt}>GO!</button>

@@ -1,6 +1,5 @@
 import React from "react";
 import Attempt from "../organisms/attempt"
-import { render } from "react-dom";
 
 export default function Board(props) {
 
@@ -17,7 +16,7 @@ export default function Board(props) {
 
     React.useEffect(() => {
         console.log("totalUserAttempts", props.totalUserAttempts)
-        
+
     }, [props.totalUserAttempts])
 
     // props.setUserAttempt(prevAttempt => ({...prevAttempt, id: i}))
