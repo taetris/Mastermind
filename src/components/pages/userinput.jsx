@@ -5,7 +5,7 @@ import Color from "../atoms/color"
 import PossibleColors from "../molecules/possibleColors";
 
 export default function UserInput(props) {
-    let colorArray = ["orange", "pink", "blue", "black", "green", "red"]
+    let colorArray = props.colorArray
  
     // React.useEffect(() => {
     //     if(selectedColors.length === 4){

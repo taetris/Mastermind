@@ -5,8 +5,18 @@ import Board from './components/pages/board'
 import Slot from './components/molecules/slot'
 
 export default function App() {
+
+  function getRandomValues(arr, count) {
+    // Make a copy of the array
+    const copy = [...arr];
+    // Shuffle the array randomly
+    const shuffled = copy.sort(() => 0.5 - Math.random());
+    // Return the first 'count' elements
+    return shuffled.slice(0, count);
+  }
   
-  const [correctValues, setCorrectValues] = React.useState(["orange", "pink", "blue", "black"]);
+  const colorArray = ["orange", "pink", "blue", "black", "green", "red"]
+  const [correctValues, setCorrectValues] = React.useState(() => getRandomValues(colorArray, 4));
   
   const [clickCount, setClickCount] = React.useState(0);
   const [attemptCount, setAttemptCount] = React.useState(0);
@@ -161,9 +171,9 @@ export default function App() {
   
   return (
     <div className="app" style={{ maxHeight: "100vh" }}>
-      <Slot colors={correctValues} colorCount={4}/>
+      {/* <Slot colors={correctValues} colorCount={4}/> */}
       <Board totalUserAttempts={totalUserAttempts} />
-      <UserInput checkUserAttempt={checkUserAttempt} colorSelectHandler={colorSelectHandler} />
+      <UserInput checkUserAttempt={checkUserAttempt} colorSelectHandler={colorSelectHandler} colorArray={colorArray}/>
     </div>
   )
 }
