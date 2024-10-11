@@ -2,6 +2,7 @@ import React from "react";
 import Attempt from "../organisms/attempt";
 import Slot from "../molecules/slot"
 import Color from "../atoms/color"
+import PossibleColors from "../molecules/possibleColors";
 
 export default function UserInput(props) {
     let colorArray = ["orange", "pink", "blue", "black", "green", "red"]
@@ -21,7 +22,7 @@ export default function UserInput(props) {
                 padding: "20px"
             }}>
                 
-            <Slot colors={colorArray} colorCount={colorArray.length} isClickable={true} colorSelectHandler={props.colorSelectHandler} resetBorder={props.resetBorder}/>
+            <PossibleColors colors={colorArray} colorCount={colorArray.length} isClickable={true} colorSelectHandler={props.colorSelectHandler} resetBorder={props.resetBorder}/>
             <button className="go-button"
                 style={{padding: "20px"}}
                 onClick={props.checkUserAttempt}>GO!</button>

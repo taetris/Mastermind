@@ -6,6 +6,7 @@ export default function Result(props) {
 
     for(let i=0; i<props.colorCount; i++){
         possibleColors.push(<Color color={props.colors[i]} size="20px"/>)
+        
 
     }
 

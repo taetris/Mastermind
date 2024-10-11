@@ -5,7 +5,7 @@ import Board from './components/pages/board'
 import Slot from './components/molecules/slot'
 
 export default function App() {
-
+  
   const [correctValues, setCorrectValues] = React.useState(["orange", "pink", "blue", "black"]);
   
   const [clickCount, setClickCount] = React.useState(0);
@@ -19,7 +19,6 @@ export default function App() {
 
   const [totalUserAttempts, setTotalUserAttempts] = React.useState([]);
   
-  let resetBorder = false;
   // Initialize the totalUserAttempts array once when the component mounts
 
   React.useEffect(() => {
@@ -40,9 +39,22 @@ export default function App() {
     // Prevent selection beyond 4 colors
     if (clickCount >= 4) return;
 
-    event.target.style.border = "5px solid #aaa"
+    // event.target.style.border = "5px solid #000"
+    
+    let selectedColor;
+      // If the event target is the button, we need to check its child (which has the background color)
+      if (event.target.tagName === "BUTTON") {
+          selectedColor = event.target.firstChild.style.backgroundColor;
+      } else {
+          // If clicked directly on the inner Color div (edge case)
+          selectedColor = event.target.style.backgroundColor;
+      }
   
-    const selectedColor = event.target.style.backgroundColor;
+      console.log(selectedColor, "selectedColor");
+
+  
+    // const selectedColor = event.target.style.backgroundColor;
+    // console.log(selectedColor, "selectedColor")
   
     setTempSelectedColors((prevSelectedColors) => {
       const newColors = [...prevSelectedColors];
@@ -141,14 +153,15 @@ export default function App() {
     });
 
     // Reset for the next attempt
-    resetBorder = true;
+
     setTempSelectedColors(["#ddd", "#ddd", "#ddd", "#ddd"]);
+    setTempResult(["#ddd", "#ddd", "#ddd", "#ddd"]);
   }
   
   
   return (
     <div className="app" style={{ maxHeight: "100vh" }}>
-      <Slot colors={correctValues} colorCount={4} isClickable={false} resetBorder={resetBorder}/>
+      <Slot colors={correctValues} colorCount={4}/>
       <Board totalUserAttempts={totalUserAttempts} />
       <UserInput checkUserAttempt={checkUserAttempt} colorSelectHandler={colorSelectHandler} />
     </div>
