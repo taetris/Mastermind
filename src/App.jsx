@@ -36,7 +36,7 @@ export default function App() {
 
   React.useEffect(() => {
     let initialAttempts = Array.from({ length: 10 }, (_, i) => ({
-      id: i+1,
+      id: i,
       value: ["#ddd", "#ddd", "#ddd", "#ddd"],
       result: ["#ddd", "#ddd", "#ddd", "#ddd"]
     }));
@@ -84,9 +84,9 @@ export default function App() {
         setTotalUserAttempts((prevAttempts) => {
           const newAttempts = [...prevAttempts];
           newAttempts[attemptCount] = {
-            id: attemptCount + 1,
+            ...prevAttempts[attemptCount],
             value: newSelection,
-            result: tempResult
+ 
           };
           return newAttempts;
         });
@@ -119,7 +119,7 @@ export default function App() {
       setTotalUserAttempts((prevAttempts) => {
         const newAttempts = [...prevAttempts];
         newAttempts[attemptCount] = {
-          id: attemptCount + 1,
+          ...prevAttempts[attemptCount],
           value: newColors,
           result: tempResult
         };
