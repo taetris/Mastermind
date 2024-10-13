@@ -15,6 +15,7 @@ export default function App() {
     return shuffled.slice(0, count);
   }
   
+  // const colorArray = ['#FF5733', '#33FF57', '#3357FF', '#F5B041', '#AF7AC5', '#1ABC9C'];
   const colorArray = ["orange", "pink", "blue", "black", "green", "red"]
   const [correctValues, setCorrectValues] = React.useState(() => getRandomValues(colorArray, 4));
   
@@ -29,6 +30,8 @@ export default function App() {
 
   const [totalUserAttempts, setTotalUserAttempts] = React.useState([]);
   
+  const [refresh, setRefresh] = React.useState(false);
+
   // Initialize the totalUserAttempts array once when the component mounts
 
   React.useEffect(() => {
@@ -40,36 +43,79 @@ export default function App() {
     setTotalUserAttempts(initialAttempts);
   }, []); // This ensures the array is initialized only once
 
- 
+  // Add this useEffect to log the updated state
+  React.useEffect(() => {
+    setRefresh((prev) => !prev);
+    console.log(tempSelectedColors, "Updated tempSelectedColors");
+  }, [tempSelectedColors]);  // This will log the updated value whenever tempSelectedColors changes
+  
 
+  React.useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Backspace') {
+        
+        handleBackspace();
+      }
+    };
+  
+    window.addEventListener('keydown', handleKeyDown);
+  
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [tempSelectedColors]);
+  
+
+  const handleBackspace = () => {
+    console.log(clickCount, "clickCount");
+    if (clickCount > 0) {
+      // Decrease the clickCount by 1 to reflect the removal
+      setClickCount(clickCount - 1);
+  
+      // Create a copy of the current tempSelectedColors
+      const newSelection = [...tempSelectedColors];
+  
+      // Set the last selected color slot to "#ddd" (remove the color)
+      newSelection[clickCount - 1] = "#ddd";
+  
+
+      setTempSelectedColors((prevSelectedColors) => {
+  
+        setTotalUserAttempts((prevAttempts) => {
+          const newAttempts = [...prevAttempts];
+          newAttempts[attemptCount] = {
+            id: attemptCount + 1,
+            value: newSelection,
+            result: tempResult
+          };
+          return newAttempts;
+        });
+    
+        return newSelection;
+      });
+    }
+  };
+    
+
+  
   function colorSelectHandler(event) {
-    // Increment clickCount
-    setClickCount((prevCount) => prevCount + 1);
-
     // Prevent selection beyond 4 colors
     if (clickCount >= 4) return;
-
-    // event.target.style.border = "5px solid #000"
-    
+  
     let selectedColor;
-      // If the event target is the button, we need to check its child (which has the background color)
-      if (event.target.tagName === "BUTTON") {
-          selectedColor = event.target.firstChild.style.backgroundColor;
-      } else {
-          // If clicked directly on the inner Color div (edge case)
-          selectedColor = event.target.style.backgroundColor;
-      }
+    // If the event target is the button, we need to check its child (which has the background color)
+    if (event.target.tagName === "BUTTON") {
+      selectedColor = event.target.firstChild.style.backgroundColor;
+    } else {
+      // If clicked directly on the inner Color div (edge case)
+      selectedColor = event.target.style.backgroundColor;
+    }
   
-      console.log(selectedColor, "selectedColor");
-
-  
-    // const selectedColor = event.target.style.backgroundColor;
-    // console.log(selectedColor, "selectedColor")
-  
+    // Correctly update the clickCount after updating the selected color
     setTempSelectedColors((prevSelectedColors) => {
       const newColors = [...prevSelectedColors];
-      newColors[clickCount] = selectedColor; // Update the current slot  
-
+      newColors[clickCount] = selectedColor; // Update the current slot
+  
       setTotalUserAttempts((prevAttempts) => {
         const newAttempts = [...prevAttempts];
         newAttempts[attemptCount] = {
@@ -79,9 +125,12 @@ export default function App() {
         };
         return newAttempts;
       });
-
+  
       return newColors;
     });
+  
+    // Increment the click count after updating the color
+    setClickCount((prevCount) => prevCount + 1);
   }
   
 

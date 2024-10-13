@@ -10,7 +10,7 @@ export default function Result(props) {
 
     }
 
-    console.log(possibleColors)
+    // console.log(possibleColors)
     return (
         <div className="result"
             style={{width: "30%",

@@ -15,7 +15,7 @@ export default function Board(props) {
     }
 
     React.useEffect(() => {
-        console.log("totalUserAttempts", props.totalUserAttempts)
+        // console.log("totalUserAttempts", props.totalUserAttempts)
 
     }, [props.totalUserAttempts])
 
