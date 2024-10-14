@@ -18,13 +18,12 @@ export default function UserInput(props) {
     return (
         <div className="user=input"
             style={{display: "flex",
-                justifyContent: "center",
+                gap: "100px",
                 padding: "20px"
             }}>
                 
-            <PossibleColors colors={colorArray} colorCount={colorArray.length} isClickable={true} colorSelectHandler={props.colorSelectHandler} resetBorder={props.resetBorder}/>
+            <PossibleColors colors={colorArray} colorCount={colorArray.length} isClickable={true} colorSelectHandler={props.colorSelectHandler} />
             <button className="go-button"
-                style={{padding: "20px"}}
                 onClick={props.checkUserAttempt}>GO!</button>
         </div>
     )

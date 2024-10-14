@@ -7,12 +7,12 @@ export default function Attempt(props) {
     return ( 
         <div className="attempt"
         style={{display: "flex",
-            border: "1px solid #bbb",
+            border: "1px solid rgba(98, 1, 145, 1)",
             padding: "12px",
             width: "500px",
             alignItems: "center",
             borderRadius: "10px",
-            background: "#eee"
+            background: "#2c2c2c"
         }}>          
             <p>#{userAttempt.id}</p>
             <Slot colors={userAttempt.value} colorCount={userAttempt.value.length}/>

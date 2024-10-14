@@ -30,7 +30,6 @@ export default function Board(props) {
                 alignItems: "center"
             }}>
             
-            <h1>Mastermind</h1>
             {renderMadeAttempts}
             
         </div>

@@ -18,7 +18,8 @@ export default function PossibleColors(props) {
             style={{
                     width: "70%",
                     display: "flex",
-                    justifyContent: "space-evenly",
+                    gap: "30px",
+                    justifyContent: "center",
                     
             }}>
             {slotColors}
