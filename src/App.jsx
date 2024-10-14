@@ -2,7 +2,8 @@ import React from 'react'
 import './App.css'
 import UserInput from './components/pages/userinput'
 import Board from './components/pages/board'
-
+import Confetti from 'react-confetti';
+import Slot from './components/molecules/slot'
 export default function App() {
 
   const selectedColor = "#5c5a61"; // Default placeholder for unselected colors
@@ -23,6 +24,8 @@ export default function App() {
   const [tempSelectedColors, setTempSelectedColors] = React.useState([selectedColor, selectedColor, selectedColor, selectedColor]);
   const [tempResult, setTempResult] = React.useState([defaultResultColor, defaultResultColor, defaultResultColor, defaultResultColor]);
   const [totalUserAttempts, setTotalUserAttempts] = React.useState([]);
+
+  const [isWinner, setIsWinner] = React.useState(false); // State to trigger confetti
 
   React.useEffect(() => {
     let initialAttempts = Array.from({ length: 10 }, (_, i) => ({
@@ -126,11 +129,6 @@ export default function App() {
       resultArray[i] = "white";
     }
 
-    if (redCount === 4) {
-      alert("You Win!");
-      return;
-    }
-
     setTempResult(resultArray);
     setTotalUserAttempts((prevAttempts) => {
       const updatedAttempts = [...prevAttempts];
@@ -142,14 +140,21 @@ export default function App() {
       return updatedAttempts;
     });
 
+    if (redCount === 4) {
+      setIsWinner(true); // Trigger confetti
+      return;
+    }
+
     setAttemptCount(attemptCount + 1);
     setTempSelectedColors([selectedColor, selectedColor, selectedColor, selectedColor]);
     setTempResult([defaultResultColor, defaultResultColor, defaultResultColor, defaultResultColor]);
   }
 
   return (
-    <div className="app" style={{ maxHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", gap: "20px"   }}>
+    <div className="app" style={{ maxHeight: "90vh", display: "flex", flexDirection: "column", alignItems: "center", gap: "20px"   }}>
       <h1> MASTER MIND </h1>
+      {/* <Slot colors={correctValues} colorCount={4} />   */}
+      {isWinner && <Confetti />} 
       <Board totalUserAttempts={totalUserAttempts} />
       <UserInput checkUserAttempt={checkUserAttempt} colorSelectHandler={colorSelectHandler} colorArray={colorArray} />
     </div>

@@ -2,6 +2,7 @@
   "name": "mastermind",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://triptisharma.com.np/",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,6 +12,7 @@
   },
   "dependencies": {
     "react": "^18.3.1",
+    "react-confetti": "^6.1.0",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
@@ -23,6 +25,6 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
-    "vite": "^5.4.1"
+    "vite": "^5.4.8"
   }
 }
