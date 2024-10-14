@@ -7,6 +7,10 @@ body, html {
     font-family: 'Afacad Flux', sans-serif;
     color: #f1f1f1;
   }
+
+  body {
+    scale: 0.9;
+  }
   
   .go-button {
     font-family: 'Afacad Flux', sans-serif; 
@@ -23,6 +27,7 @@ body, html {
   h1 {
     font-family: 'Afacad Flux', sans-serif;
     font-size: 32px;
+    margin: 0;
     color: #f1f1f1;
   }
   
